@@ -2,8 +2,6 @@
 Tic Tac Toe Player
 """
 
-import math
-
 X = "X"
 O = "O"
 EMPTY = None
@@ -52,7 +50,6 @@ def actions(board):
     print(f"Possible actions: {possible_actions}")
 
     return possible_actions
-
 
 
 def result(board, action):
@@ -119,8 +116,6 @@ def terminal(board):
     return True
 
 
-
-
 def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
@@ -145,4 +140,3 @@ def minimax(board):
         return None
 
     current_player = player(board)
-
