@@ -27,6 +27,9 @@ def player(board):
     x_count = sum(row.count(X) for row in board)
     o_count = sum(row.count(O) for row in board)
 
+    print(f"X count: {x_count}")
+    print(f"O count: {o_count}")
+
     # Decide whose turn is it
     if x_count == o_count:
         return X
@@ -45,6 +48,8 @@ def actions(board):
             if board[i][j] == EMPTY:
                 possible_actions.append((i, j))
 
+    print(f"Possible actions: {possible_actions}")
+
     return possible_actions
 
 
@@ -53,7 +58,20 @@ def result(board, action):
     """
     Returns the board that results from making move (i, j) on the board.
     """
-    raise NotImplementedError
+
+    # Check if the action is valid
+    if action not in actions(board):
+        raise Exception("Invalid action!")
+
+    # Check whose turn it is
+    player_turn = player(board)
+    print(f"Player turn: {player_turn}")
+
+    # Make a move
+    new_board = board[:]
+    new_board[action[0]][action[1]] = player_turn
+
+    return new_board
 
 
 def winner(board):
