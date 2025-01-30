@@ -59,10 +59,8 @@ def main():
 
     # Load data from files into memory
     print("Loading data...")
-
     load_data(directory)
     print("Data loaded.")
-
 
     source = person_id_for_name(input("Name: "))
     if source is None:
