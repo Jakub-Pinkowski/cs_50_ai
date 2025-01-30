@@ -41,6 +41,7 @@ def actions(board):
     """
     Returns set of all possible actions (i, j) available on the board.
     """
+
     possible_actions = []
 
     for i in range(len(board)):
@@ -78,25 +79,70 @@ def winner(board):
     """
     Returns the winner of the game, if there is one.
     """
-    raise NotImplementedError
+
+    # Check rows for a winner
+    for row in board:
+        if row[0] == row[1] == row[2] and row[0] is not None:
+            return row[0]
+
+    # Check columns for a winner
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] and board[0][col] is not None:
+            return board[0][col]
+
+    # Check diagonals for a winner
+    if board[0][0] == board[1][1] == board[2][2] and board[0][0] is not None:
+        return board[0][0]
+
+    if board[0][2] == board[1][1] == board[2][0] and board[0][2] is not None:
+        return board[0][2]
+
+    # If no winner, return None
+    return None
 
 
 def terminal(board):
     """
     Returns True if game is over, False otherwise.
     """
-    raise NotImplementedError
+
+    # Check if there's a winner
+    if winner(board) is not None:
+        return True
+
+    # Check if the board is full
+    for row in board:
+        if EMPTY in row:
+            return False
+
+    # If no winner and no empty spaces, the game is over
+    return True
+
+
 
 
 def utility(board):
     """
     Returns 1 if X has won the game, -1 if O has won, 0 otherwise.
     """
-    raise NotImplementedError
+    game_winner = winner(board)
+
+    if game_winner == X:
+        return 1
+    elif game_winner == O:
+        return -1
+    else:
+        return 0
 
 
 def minimax(board):
     """
     Returns the optimal action for the current player on the board.
     """
-    raise NotImplementedError
+
+    # Check if the board is in a terminal state
+    if terminal(board):
+        return None
+
+    current_player = player(board)
+
