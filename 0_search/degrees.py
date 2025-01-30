@@ -59,6 +59,7 @@ def main():
 
     # Load data from files into memory
     print("Loading data...")
+
     load_data(directory)
     print("Data loaded.")
 
