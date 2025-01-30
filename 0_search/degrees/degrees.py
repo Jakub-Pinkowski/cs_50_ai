@@ -86,14 +86,39 @@ def main():
 
 def shortest_path(source, target):
     """
+    Inputs source and target are IDs, for example Source: 102, Target: 914612
     Returns the shortest list of (movie_id, person_id) pairs
     that connect the source to the target.
 
     If no possible path, returns None.
     """
 
-    # TODO
-    raise NotImplementedError
+    # Initialize the frontier with the starting position
+    frontier = QueueFrontier()
+    frontier.add(Node(state=source, parent=None, action=None))
+
+    # Keep track of visited nodes to avoid revisiting
+    explored = set()
+
+    while not frontier.empty():
+        # Remove the node from the frontier
+        node = frontier.remove()
+
+        # If it's the target, reconstruct the path
+        if node.state == target:
+            return reconstruct_path(node)
+
+        # Mark this person as explored
+        explored.add(node.state)
+
+        # Add neighbors to the frontier
+        for movie_id, person_id in neighbors_for_person(node.state):
+            if person_id not in explored and not frontier.contains_state(person_id):
+                child = Node(state=person_id, parent=node, action=movie_id)
+                frontier.add(child)
+
+    # If no path is found, return None
+    return None
 
 
 def person_id_for_name(name):
@@ -120,6 +145,22 @@ def person_id_for_name(name):
         return None
     else:
         return person_ids[0]
+
+
+def reconstruct_path(node):
+    """
+    Reconstructs the path from the source to the target node.
+    Inputs:
+        - node: The target Node for which the path needs to be reconstructed
+    Returns a list of (movie_id, person_id) pairs representing the path.
+    """
+    path = []
+    while node.parent is not None:
+        path.append((node.action, node.state))
+        node = node.parent
+    path.reverse()
+    return path
+
 
 
 def neighbors_for_person(person_id):
