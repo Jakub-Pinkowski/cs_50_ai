@@ -210,7 +210,6 @@ def main():
             print(row)
 
     # Game over
-    print("\nGame over!")
     game_winner = winner(board)
     if game_winner:
         print(f"The winner is {game_winner}!")
